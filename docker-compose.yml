@@ -1,0 +1,26 @@
+version: '3'
+services:
+  server:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      vnet:
+        ipv4_address: 10.6.0.2
+  client:
+    build:
+      context: client
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5000"
+    networks:
+      vnet:
+        ipv4_address: 10.6.0.100
+
+networks:
+  vnet:
+    ipam:
+      config:
+        - subnet: 10.6.0.0/16
