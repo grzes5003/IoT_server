@@ -2,6 +2,7 @@
 #define SERVER_SERVER_H
 
 #include "control.h"
+#include <stdbool.h>
 #define _REUSEADDR
 
 int check(int exp, const char *msg);
@@ -25,5 +26,8 @@ int accept_new_conn(int sockfd);
  * @return
  */
 int handle_connection(int connfd);
+int run_flag;
+
+int sig_pipe();
 
 #endif //SERVER_SERVER_H

@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <threads.h>
+#include <pthread.h>
 #include <string.h>
 #include <errno.h>
+#include "server.h"
+
+int run_flag = true;
 
 int check(int exp, const char *msg) {
     if (exp < 0) {
@@ -12,3 +15,7 @@ int check(int exp, const char *msg) {
     return exp;
 }
 
+int sig_pipe() {
+    run_flag = false;
+    return 0;
+}
