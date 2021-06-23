@@ -7,6 +7,18 @@
 
 int run_flag = true;
 
+int setup_server(int port) {
+    return 0;
+}
+
+int accept_new_conn(int sockfd) {
+    return 0;
+}
+
+int handle_connection(int connfd) {
+    return 0;
+}
+
 int check(int exp, const char *msg) {
     if (exp < 0) {
         fprintf(stderr, "%s: %s\n", msg, strerror(errno));
