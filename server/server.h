@@ -23,7 +23,7 @@ int accept_new_conn(int sockfd);
 /**
  * Handles connection
  * @param connfd socket descriptor
- * @return
+ * @return status
  */
 int handle_connection(int connfd);
 int run_flag;

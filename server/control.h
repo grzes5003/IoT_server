@@ -10,8 +10,20 @@ typedef struct {
 
 #define SENSOR_ARR_SIZE 100
 
+/**
+ * Add sensor to list of subscribed sensors
+ * @param sensor_arr array of subscribed sensors
+ * @param sensor to be added
+ * @return status
+ */
 int sens_add_remote(sensor_t sensor_arr[], sensor_t *sensor);
 
+/**
+ * Remove sensor from list of subscribed sensors
+ * @param sensor_arr array of subscribed sensors
+ * @param sensor to be removed
+ * @return
+ */
 int sens_remove_remote(sensor_t sensor_arr[], sensor_t *sensor);
 
 int change_mode();

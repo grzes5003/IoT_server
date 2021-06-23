@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "server.h"
 #include "tpool.h"
+#include "logger.h"
 
 static const int srv_port = 5500;
 static const size_t num_threads = 4;
@@ -12,6 +13,7 @@ int main() {
     tm = tpool_create(num_threads);
 
     int srv_sock = setup_server(srv_port);
+    logger("main", "server set up");
 
     while (run_flag) {
         int cli_sock = accept_new_conn(srv_sock);
