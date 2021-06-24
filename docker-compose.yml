@@ -8,8 +8,8 @@ services:
       - "5000:5000"
     networks:
       vnet:
-        ipv4_address: 10.6.0.2
-  client:
+        ipv6_address: 2001:db8::1
+  client_1:
     build:
       context: client
       dockerfile: Dockerfile
@@ -17,7 +17,25 @@ services:
       - "5001:5000"
     networks:
       vnet:
-        ipv4_address: 10.6.0.100
+        ipv6_address: 2001:db8::101
+  client_2:
+    build:
+      context: client
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5000"
+    networks:
+      vnet:
+        ipv6_address: 2001:db8::102
+  client_3:
+    build:
+      context: client
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5000"
+    networks:
+      vnet:
+        ipv6_address: 2001:db8::103
 
 networks:
   vnet:

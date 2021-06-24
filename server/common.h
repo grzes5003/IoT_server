@@ -10,6 +10,8 @@ typedef uint8_t in_msg_t;
 enum {
     MSG_HELLO = 30,
 #define MSG_HELLO               MSG_HELLO
+    MSG_READ = 31,
+#define MSG_READ                MSG_READ
 };
 
 typedef struct message_t {

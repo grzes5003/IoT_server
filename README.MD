@@ -20,6 +20,7 @@ Each sent or received message consists of:
  
 ### Message types
 - `MSG_HELLO`
+- `MSG_READ`
 
 Requests:
 - `REQ_RETRANS`
