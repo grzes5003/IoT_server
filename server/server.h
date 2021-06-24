@@ -3,9 +3,9 @@
 
 #include "control.h"
 #include <stdbool.h>
-#define _REUSEADDR
 
-int check(int exp, const char *msg);
+#define _REUSEADDR
+#define RCV_BUFFSIZE  10000
 
 /**
  * Sets up socket
@@ -23,9 +23,11 @@ int accept_new_conn(int sockfd);
 /**
  * Handles connection
  * @param connfd socket descriptor
+ * @param sensor_arr linked list of sensors
  * @return status
  */
-int handle_connection(int connfd);
+int handle_connection(int connfd, sensor_t *sensor_arr);
+
 int run_flag;
 
 int sig_pipe();

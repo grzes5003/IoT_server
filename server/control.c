@@ -3,6 +3,18 @@
 #include "control.h"
 
 
+sensor_t *sens_find(sensor_t *sensor_arr, struct in6_addr *address) {
+    sensor_t *iter = sensor_arr;
+    while (iter->_next != NULL) {
+        if (IN6_ARE_ADDR_EQUAL(&iter->_addr.sin6_addr, address)) {
+            // found sensor
+            return iter;
+        }
+        iter = iter->_next;
+    }
+    return NULL;
+}
+
 int sens_add_remote(sensor_t *sensor_arr, sensor_t *sensor) {
     sensor_t *iter = sensor_arr;
     while (iter->_next != NULL) {

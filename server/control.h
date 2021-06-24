@@ -12,6 +12,14 @@ typedef struct sensor_t {
 #define SENSOR_ARR_SIZE 100
 
 /**
+ * Finds sensor in linked list of subscribed sensors
+ * @param sensor_arr linked list of subscribed sensors
+ * @param address of sensor
+ * @return pointer to sensor or NULL if non is found
+ */
+sensor_t *sens_find(sensor_t *sensor_arr, struct in6_addr *address);
+
+/**
  * Add sensor to linked list of subscribed sensors
  * @param sensor_arr linked list of subscribed sensors
  * @param sensor to be added

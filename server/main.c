@@ -42,25 +42,20 @@ void srv_rcv_loop(int srvsockfd)
 }
 
 int main() {
-    int sockfd;
-    struct sockaddr_in6	servaddr, cliaddr;
+    sensor_t *sensor_arr;
 
-    if ( (sockfd = socket(AF_INET6, SOCK_DGRAM, 0)) < 0){
-        fprintf(stderr,"socket error : %s\n", strerror(errno));
-        return 1;
+    int servfd = setup_server(15);
+
+    sensor_arr = (sensor_t*) malloc(sizeof (sensor_t));
+    sensor_arr->_addr.sin6_family = AF_INET6;
+    sensor_arr->_addr.sin6_addr = in6addr_any;
+    sensor_arr->_addr.sin6_port = htons(16);
+    sensor_arr->_next= NULL;
+
+    log_info("Waiting for incoming messages ...");
+    while (true) {
+        handle_connection(servfd, sensor_arr);
     }
-
-    bzero(&servaddr, sizeof(servaddr));
-    servaddr.sin6_family = AF_INET6;
-    servaddr.sin6_addr   = in6addr_any;
-    servaddr.sin6_port   = htons(SERV_PORT);	/* daytime server */
-
-    if (bind(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0){
-        fprintf(stderr,"bind error : %s\n", strerror(errno));
-        return 1;
-    }
-
-
     return 0;
 }
 
