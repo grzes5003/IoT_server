@@ -77,4 +77,5 @@ Starts in `main.c`. Inside `server.h` are defined all network functions.
 Header `common.h` defines custom protocol messages and other common structures.
 
 ### Client
-Initiates in `main.c`. 
+Initiated in `main.c`. Sets up client (among others, sending hello message)
+and periodically sends to server read from it's sensor. 

@@ -3,12 +3,17 @@
 #include "common.h"
 #include "log.h"
 #include "sensor.h"
-#include <netinet/in.h>
 #include <arpa/inet.h>
-#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 
+/**
+ * Setup server, set servaddr
+ * @param port used to connect
+ * @param addr of server
+ * @param servaddr struct sockaddr_in6
+ * @return status
+ */
 int setup_client(int port, char *addr, struct sockaddr_in6 *servaddr) {
     int sockfd, n;
     char recvline[MAXLINE + 1];
@@ -48,8 +53,8 @@ int setup_client(int port, char *addr, struct sockaddr_in6 *servaddr) {
 /**
  * Send current read and listen
  * for responses for particular time
- * @param servaddr
- * @return
+ * @param servaddr address of server
+ * @return status
  */
 int snd_rcv(const struct sockaddr_in6 *servaddr) {
     int sockfd, n;
