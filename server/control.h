@@ -29,22 +29,6 @@ int sens_remove_remote(sensor_t *sensor_arr, sensor_t *sensor);
 
 int change_mode();
 
-/**
- * Prepares request based on arguments
- * @param req_type Type of request
- * @param token Auth token
- * @param payload Message to be included
- * @return request_t pointer
- */
-request_t *prepare_request(in_req_t req_type, const token_t *token, char *payload);
 
-/**
- * Prepares request based on arguments
- * @param res_type Type of request
- * @param token Auth token
- * @param payload Message to be included
- * @return response_t pointer
- */
-response_t *prepare_response(in_res_t res_type, const token_t *token, char *payload);
 
 #endif //SERVER_CONTROL_H

@@ -1,6 +1,5 @@
 #include <stddef.h>
 #include <malloc.h>
-#include <string.h>
 #include "control.h"
 
 
@@ -35,25 +34,4 @@ int sens_remove_remote(sensor_t *sensor_arr, sensor_t *sensor) {
     }
     // element not found
     return -1;
-}
-
-
-request_t *prepare_request(in_req_t req_type, const token_t *token, char *payload) {
-    request_t *req = malloc(sizeof (request_t));
-
-    req->req_type = req_type;
-    req->token = *token;
-    req->payload = strdup(payload);
-
-    return req;
-}
-
-response_t *prepare_response(in_res_t res_type, const token_t *token, char *payload) {
-    response_t *res = malloc(sizeof (response_t));
-
-    res->res_type = res_type;
-    res->token = *token;
-    res->payload = strdup(payload);
-
-    return res;
 }
