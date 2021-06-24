@@ -17,6 +17,23 @@ Each sent or received message consists of:
  |               PAYLOAD                   |
  +-----------------------------------------+
  </pre>
+ 
+### Message types
+- `MSG_HELLO`
+
+Requests:
+- `REQ_RETRANS`
+- `REQ_READ_SENSOR`
+- `REQ_SHUTDOWN`
+- `REQ_CHANGE_UPDATE_PRD`
+
+Responses:
+- `RES_ACK`
+- `RES_ERR`
+
+### New sensor discovery
+On start, new sensor sends `MSG_HELLO` to server, which adds the sensor 
+to subscribed device list and responds with `RES_ACK`.
 
 ## Typical behaviour
 Each time new sensor device starts, 
@@ -38,19 +55,25 @@ Project consists of two directories:
 - Server
 - Client
 
-### Server
-Starts in `main.c`. Inside `server.h` are defined all network functions. 
-`control.h` introduces `struct sensor_t` with functions used to manage sensors.
-Header `common.h` defines custom protocol messages and other common structures.
-
-Common types:
+Common types used by client and server:
 ```c
 // common.h
 struct request_t
 struct response_t
 
-// control.h
-struct sensor_t 
+uint64_t token_t
 ```
 
+Types specific to server:
+```c
+// control.h
+struct sensor_t
+```
+
+### Server
+Starts in `main.c`. Inside `server.h` are defined all network functions. 
+`control.h` introduces `struct sensor_t` with functions used to manage sensors.
+Header `common.h` defines custom protocol messages and other common structures.
+
 ### Client
+Initiates in `main.c`. 
