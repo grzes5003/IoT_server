@@ -59,7 +59,7 @@ message_t *prepare_message(in_msg_t msg_type, const token_t *token, char *payloa
  * @param rcv_data buffer
  * @return pointer to new request, response or message
  */
-message_t *deserialize_data(char *data, size_t size);
+message_t *deserialize_data(char *data);
 
 int check(int exp, const char *msg);
 

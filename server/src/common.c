@@ -14,12 +14,11 @@ message_t *prepare_message(in_msg_t msg_type, const token_t *token, char *payloa
     return msg;
 }
 
-message_t *deserialize_data(char *data, size_t size) {
-    if (size != MESSAGE_LEN) return NULL;
+message_t *deserialize_data(char *data) {
     in_msg_t msg_type;
     memcpy(&msg_type, data, sizeof (in_msg_t));
     char c_token[TOKEN_LEN];
-    memcpy(c_token, &data[TOKEN_OFFSET],TOKEN_LEN);
+    memcpy(c_token, &data[TOKEN_OFFSET], sizeof (token_t));
     char c_payload[PAYLOAD_LEN];
     memcpy(&c_payload, &data[PAYLOAD_OFFSET], PAYLOAD_LEN);
 
