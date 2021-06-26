@@ -4,8 +4,9 @@
 #include <netinet/in.h>
 
 #define MAXLINE 1024
+#define SA      struct sockaddr
 
-int setup_client(int port, char *addr, struct sockaddr_in6 *servaddr);
+int setup_client(int port, char *addr, const SA *servaddr, socklen_t servlen);
 
 int snd_rcv(const struct sockaddr_in6 *servaddr);
 

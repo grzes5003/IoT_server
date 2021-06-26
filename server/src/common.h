@@ -17,7 +17,7 @@ typedef uint8_t in_msg_t;
 typedef struct message_t {
     in_msg_t msg_type;
     token_t  token;
-    const char *payload;
+    char payload[PAYLOAD_LEN];
 } message_t;
 
 enum {
@@ -55,9 +55,10 @@ enum {
 message_t *prepare_message(in_msg_t msg_type, const token_t *token, char *payload);
 
 /**
- * Deserializes data into req, req or msg type
+ * @bug NOT WORKING RN
+ * Deserializes data into msg type
  * @param rcv_data buffer
- * @return pointer to new request, response or message
+ * @return pointer to new message
  */
 message_t *deserialize_data(char *data);
 

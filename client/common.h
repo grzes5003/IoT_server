@@ -5,7 +5,20 @@
 
 typedef uint64_t token_t;
 
+/* Common type to represent message type */
 typedef uint8_t in_msg_t;
+
+#define TOKEN_LEN 8
+#define TOKEN_OFFSET 1
+#define PAYLOAD_LEN 9
+#define PAYLOAD_OFFSET 9
+#define MESSAGE_LEN 18
+
+typedef struct message_t {
+    in_msg_t msg_type;
+    token_t  token;
+    char payload[PAYLOAD_LEN];
+} message_t;
 
 enum {
     MSG_HELLO = 30,
@@ -13,15 +26,6 @@ enum {
     MSG_READ = 31,
 #define MSG_READ                MSG_READ
 };
-
-typedef struct message_t {
-    in_msg_t msg_type;
-    token_t  token;
-    char *payload;
-} message_t;
-
-/* Common type to represent request type */
-typedef uint8_t in_req_t;
 
 enum {
     REQ_RETRANS = 0,
@@ -34,27 +38,12 @@ enum {
 #define REQ_CHANGE_UPDATE_PRD   REQ_CHANGE_UPDATE_PRD
 };
 
-typedef struct request_t {
-    in_req_t req_type;
-    token_t  token;
-    char *payload;
-} request_t;
-
-/* Common type to represent response type */
-typedef uint8_t in_res_t;
-
 enum {
     RES_ACK = 10,
 #define RES_ACK                 RES_ACK
     RES_ERR = 12,
 #define RES_ERR                 RES_ERR
 };
-
-typedef struct response_t {
-    in_res_t res_type;
-    token_t  token;
-    char *payload;
-} response_t;
 
 /**
  * Prepares message based on arguments
@@ -66,22 +55,12 @@ typedef struct response_t {
 message_t *prepare_message(in_msg_t msg_type, const token_t *token, char *payload);
 
 /**
- * Prepares request based on arguments
- * @param req_type Type of request
- * @param token Auth token
- * @param payload Message to be included
- * @return request_t pointer
+ * @bug NOT WORKING RN
+ * Deserializes data into msg type
+ * @param rcv_data buffer
+ * @return pointer to new message
  */
-request_t *prepare_request(in_req_t req_type, const token_t *token, char *payload);
-
-/**
- * Prepares request based on arguments
- * @param res_type Type of request
- * @param token Auth token
- * @param payload Message to be included
- * @return response_t pointer
- */
-response_t *prepare_response(in_res_t res_type, const token_t *token, char *payload);
+message_t *deserialize_data(char *data);
 
 int check(int exp, const char *msg);
 

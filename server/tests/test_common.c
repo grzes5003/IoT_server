@@ -40,6 +40,15 @@ void test_add_sens_to_remote(sensor_t *arr) {
     printf("stuff");
 }
 
+void test_prepare_message() {
+    in_msg_t msg_type = 30;
+    token_t token = (int64_t) 15;
+    char *payload = "12345678";
+
+    message_t *message = prepare_message(msg_type, &token, payload);
+    printf("stuff %p", message);
+}
+
 void test_remove_sens_from_remote(sensor_t *arr) {
     static const uint8_t my_addr2[16] = { 0x20, 0x01, 0x08, 0x88, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02 };
 
@@ -57,11 +66,25 @@ void test_remove_sens_from_remote(sensor_t *arr) {
 
 void test_deserialize() {
     char data[] = "123456789abcdefgh";
-    deserialize_data(data);
+
+    message_t *message = deserialize_data(data);
+    printf("stuff %p", &message);
+}
+
+void test_prepare_and_deserialize() {
+    in_msg_t msg_type = 31;
+    token_t token = (int64_t) 16;
+    char *payload = "12345678";
+
+    char *c_message = (char *) prepare_message(msg_type, &token, payload);
+    message_t *message = (message_t *) c_message;
+    printf("stuff %p", message);
 }
 
 int main() {
     test_deserialize();
+    test_prepare_message();
+    test_prepare_and_deserialize();
     sensor_t *sensor_arr = prepare_sensor_arr();
     test_add_sens_to_remote(sensor_arr);
     test_remove_sens_from_remote(sensor_arr);

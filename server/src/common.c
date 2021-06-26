@@ -9,7 +9,7 @@ message_t *prepare_message(in_msg_t msg_type, const token_t *token, char *payloa
 
     msg->msg_type = msg_type;
     msg->token = *token;
-    msg->payload = strdup(payload);
+    strncpy(msg->payload, payload, PAYLOAD_LEN);
 
     return msg;
 }
@@ -17,12 +17,13 @@ message_t *prepare_message(in_msg_t msg_type, const token_t *token, char *payloa
 message_t *deserialize_data(char *data) {
     in_msg_t msg_type;
     memcpy(&msg_type, data, sizeof (in_msg_t));
-    char c_token[TOKEN_LEN];
-    memcpy(c_token, &data[TOKEN_OFFSET], sizeof (token_t));
+    token_t token;
+    memcpy(&token, &data[TOKEN_OFFSET], sizeof (token_t));
     char c_payload[PAYLOAD_LEN];
     memcpy(&c_payload, &data[PAYLOAD_OFFSET], PAYLOAD_LEN);
 
-    return &(message_t){(in_msg_t) data[0], (token_t) c_token, c_payload};
+//    return prepare_message((in_msg_t) data[0], (token_t *) c_token, c_payload);
+    return &(message_t){(in_msg_t) data[0], token, c_payload};
 }
 
 int check(int exp, const char *msg) {

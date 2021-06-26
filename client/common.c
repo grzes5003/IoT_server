@@ -9,29 +9,21 @@ message_t *prepare_message(in_msg_t msg_type, const token_t *token, char *payloa
 
     msg->msg_type = msg_type;
     msg->token = *token;
-    msg->payload = strdup(payload);
+    strncpy(msg->payload, payload, PAYLOAD_LEN);
 
     return msg;
 }
 
-request_t *prepare_request(in_req_t req_type, const token_t *token, char *payload) {
-    request_t *req = malloc(sizeof (request_t));
+message_t *deserialize_data(char *data) {
+    in_msg_t msg_type;
+    memcpy(&msg_type, data, sizeof (in_msg_t));
+    token_t token;
+    memcpy(&token, &data[TOKEN_OFFSET], sizeof (token_t));
+    char c_payload[PAYLOAD_LEN];
+    memcpy(&c_payload, &data[PAYLOAD_OFFSET], PAYLOAD_LEN);
 
-    req->req_type = req_type;
-    req->token = *token;
-    req->payload = strdup(payload);
-
-    return req;
-}
-
-response_t *prepare_response(in_res_t res_type, const token_t *token, char *payload) {
-    response_t *res = malloc(sizeof (response_t));
-
-    res->res_type = res_type;
-    res->token = *token;
-    res->payload = strdup(payload);
-
-    return res;
+//    return prepare_message((in_msg_t) data[0], (token_t *) c_token, c_payload);
+    return &(message_t){(in_msg_t) data[0], token, c_payload};
 }
 
 int check(int exp, const char *msg) {

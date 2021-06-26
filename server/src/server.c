@@ -43,8 +43,14 @@ int handle_connection(int connfd, sensor_t *sensor_arr) {
     check((n = recvfrom(connfd, (void *) rcvbuff, RCV_BUFFSIZE, 0, (struct sockaddr *) &cliaddr, &srcaddrlen)),
           "recvfrom error");
 
-    inet_ntop(AF_INET6, &cliaddr.sin6_addr, ipv6_human, sizeof(ipv6_human));
-    log_info("Received message from ", ipv6_human);
+    inet_ntop(AF_INET6, (struct sockaddr *) &cliaddr.sin6_addr, ipv6_human, sizeof(ipv6_human));
+    log_info("Received message from %s", ipv6_human);
+
+    if (n != sizeof (message_t)) {
+        log_error("Received corrupted message");
+        return 1;
+    }
+    message_t *recv_msg = (message_t *) rcvbuff;
 
     sensor_t *sensor;
     if ((sensor = sens_find(sensor_arr, &cliaddr.sin6_addr)) == NULL) {
