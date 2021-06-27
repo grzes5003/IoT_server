@@ -1,5 +1,5 @@
 # IoT server
-> C99 & low level network programming
+> C99 & low level network programming & Docker
 
 ## Protocol
 To exchange information new mini-protocol is defined. It resides in Application
@@ -79,3 +79,31 @@ Header `common.h` defines custom protocol messages and other common structures.
 ### Client
 Initiated in `main.c`. Sets up client (among others, sending hello message)
 and periodically sends to server read from its sensor. 
+
+## How to run
+Navigate to project directory and run server with desired clients by adding its name
+(currently three are defined).
+```bash
+docker-compose run server client_1
+```
+
+## Example console output
+Server:
+```
+21:54:45 INFO  /tmp/tmp.4aeQwZJ5yI/src/server.c:18: created socket
+21:54:45 INFO  /tmp/tmp.4aeQwZJ5yI/src/server.c:36: bound socket
+21:54:45 INFO  /tmp/tmp.4aeQwZJ5yI/src/main.c:27: Waiting for incoming messages ...
+21:54:51 INFO  /tmp/tmp.4aeQwZJ5yI/src/server.c:64: Received message from ::ffff:192.168.56.33
+21:54:51 INFO  /tmp/tmp.4aeQwZJ5yI/src/server.c:71: Message: TYPE 30, PAYLOAD 1234567
+21:54:51 INFO  /tmp/tmp.4aeQwZJ5yI/src/server.c:64: Received message from ::ffff:192.168.56.33
+21:54:51 INFO  /tmp/tmp.4aeQwZJ5yI/src/server.c:71: Message: TYPE 31, PAYLOAD 21.01745
+21:55:06 INFO  /tmp/tmp.4aeQwZJ5yI/src/server.c:64: Received message from ::ffff:192.168.56.33
+21:55:06 INFO  /tmp/tmp.4aeQwZJ5yI/src/server.c:71: Message: TYPE 31, PAYLOAD 2.254541
+```
+Client:
+```
+21:54:51 INFO  /tmp/tmp.HiNNX6DBEB/src/main.c:20: env SRV_ADDR not defined, using 192.168.56.33 instead
+21:54:51 INFO  /tmp/tmp.HiNNX6DBEB/src/client.c:79: got RES_ACK from server
+21:54:51 INFO  /tmp/tmp.HiNNX6DBEB/src/client.c:96: sent temperature 21.01745
+21:55:06 INFO  /tmp/tmp.HiNNX6DBEB/src/client.c:96: sent temperature 2.254541
+```
