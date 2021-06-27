@@ -34,7 +34,8 @@ int accept_new_conn(int sockfd) {
 int handle_connection(int connfd, sensor_t *sensor_arr) {
     int n;
     struct sockaddr_in6 cliaddr;
-    socklen_t srcaddrlen;
+    bzero(&cliaddr, sizeof (struct sockaddr_in6));
+    socklen_t srcaddrlen = sizeof cliaddr;
     char *rcvbuff = malloc(RCV_BUFFSIZE);
     char ipv6_human[INET6_ADDRSTRLEN + 1];
     time_t ticks;
@@ -51,12 +52,21 @@ int handle_connection(int connfd, sensor_t *sensor_arr) {
         return 1;
     }
     message_t *recv_msg = (message_t *) rcvbuff;
+    log_info("Message: TYPE %i, PAYLOAD %s", recv_msg->msg_type, recv_msg->payload);
 
     sensor_t *sensor;
     if ((sensor = sens_find(sensor_arr, &cliaddr.sin6_addr)) == NULL) {
         // add sensor to list
         sensor_t _sensor = {cliaddr, {}, NULL};
         sens_add_remote(sensor_arr, &_sensor);
+    }
+
+    message_t resp_msg;
+    if (recv_msg->msg_type == MSG_HELLO) {
+        token_t token = (int64_t) 120;
+        resp_msg = *prepare_message(RES_ACK, &token, "ACK1234");
+        check(sendto(connfd, &resp_msg, sizeof (message_t), 0, (struct sockaddr *) &cliaddr, srcaddrlen),
+              "sendto error");
     }
 
     return 0;

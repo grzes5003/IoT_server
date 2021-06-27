@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 #define _REUSEADDR
+#define SA struct sockaddr
 #define RCV_BUFFSIZE  10000
 
 /**

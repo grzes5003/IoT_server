@@ -9,6 +9,9 @@
 #define SRV_ADDR "fc00:1:1::ae"
 
 int main() {
+    int update_prd = 10;
+    bool run_flag = true;
+
     struct sockaddr_in6 servaddr;
     bzero(&servaddr, sizeof(servaddr));
     servaddr.sin6_family = AF_INET6;
@@ -19,8 +22,9 @@ int main() {
 
     setup_client(PORT, SRV_ADDR, (SA *) &servaddr, sizeof (servaddr));
 
-//    while(true) {
-//        snd_rcv(&servaddr);
-//        sleep(10);
-//    }
+    while(run_flag) {
+        snd_rcv((SA *) &servaddr, sizeof (servaddr), &update_prd, &run_flag);
+        sleep(update_prd);
+    }
+    return 0;
 }
