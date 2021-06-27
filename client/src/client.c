@@ -126,7 +126,11 @@ void handler_SIGALARM(int sig) {
 int get_sockfd() {
     int sockfd;
 
+#if _IPV6
     check(sockfd = socket(AF_INET6, SOCK_DGRAM, 0), "socket error");
+#else
+    check(sockfd = socket(AF_INET6, SOCK_DGRAM, 0), "socket error");
+#endif
 
 #ifdef _TIMEOUT_SOCK
     struct timeval tv;

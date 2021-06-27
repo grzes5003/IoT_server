@@ -7,6 +7,7 @@
 #define _REUSEADDR
 #define SA struct sockaddr
 #define RCV_BUFFSIZE  10000
+#define _IPV6 1
 
 /**
  * Sets up socket
@@ -28,8 +29,6 @@ int accept_new_conn(int sockfd);
  * @return status
  */
 int handle_connection(int connfd, sensor_t *sensor_arr);
-
-int run_flag;
 
 int sig_pipe();
 

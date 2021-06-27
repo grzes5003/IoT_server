@@ -5,37 +5,43 @@ services:
       context: server
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "5000:5001"
     networks:
       vnet:
-        ipv6_address: 2001:db8::1
+        ipv4_address: 10.6.0.100
   client_1:
     build:
       context: client
       dockerfile: Dockerfile
     ports:
-      - "5001:5000"
+      - "5001:5001"
+    environment:
+      - SRV_ADDR=10.6.0.100
     networks:
       vnet:
-        ipv6_address: 2001:db8::101
+        ipv4_address: 10.6.0.101
   client_2:
     build:
       context: client
       dockerfile: Dockerfile
     ports:
-      - "5002:5000"
+      - "5002:5001"
+    environment:
+      - SRV_ADDR=10.6.0.100
     networks:
       vnet:
-        ipv6_address: 2001:db8::102
+        ipv4_address: 10.6.0.102
   client_3:
     build:
       context: client
       dockerfile: Dockerfile
     ports:
-      - "5003:5000"
+      - "5003:5001"
+    environment:
+      - SRV_ADDR=10.6.0.100
     networks:
       vnet:
-        ipv6_address: 2001:db8::103
+        ipv4_address: 10.6.0.103
 
 networks:
   vnet:

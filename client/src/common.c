@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <errno.h>
 #include "common.h"
+#include <stdio.h>
+
 
 message_t *prepare_message(in_msg_t msg_type, const token_t *token, char *payload) {
     message_t *msg = malloc(sizeof (message_t));

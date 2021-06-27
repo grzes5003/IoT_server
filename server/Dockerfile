@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.13
 
 # install cmake
 RUN apk update \
@@ -11,7 +11,7 @@ ADD . /app
 
 # build server
 RUN cmake .
-RUN make
+RUN make server_exec
 
 # Command to run the executable
-CMD ["./server"]
+CMD ["./src/server_exec"]
