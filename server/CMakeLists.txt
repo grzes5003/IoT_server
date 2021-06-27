@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.18)
 project(server C)
 
 set(CMAKE_C_STANDARD 11)
@@ -10,7 +10,7 @@ set(
         CACHE STRING "IOT Include Directories"
 )
 
-add_executable(server main.c server.h server.c control.c control.h common.c common.h tpool.h tpool.c log.c log.h)
+add_subdirectory (src)
 
 enable_testing()
 add_subdirectory(tests)

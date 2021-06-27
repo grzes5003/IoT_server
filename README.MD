@@ -78,4 +78,4 @@ Header `common.h` defines custom protocol messages and other common structures.
 
 ### Client
 Initiated in `main.c`. Sets up client (among others, sending hello message)
-and periodically sends to server read from it's sensor. 
+and periodically sends to server read from its sensor. 

@@ -1,6 +1,12 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.18)
 project(client C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(client main.c common.c common.h client.c client.h sensor.c sensor.h)
+set(
+        IOT_INCLUDE_DIRS
+        ${CMAKE_SOURCE_DIR}
+        CACHE STRING "IOT Include Directories"
+)
+
+add_subdirectory (src)

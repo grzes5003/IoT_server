@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.13
 
 # install cmake
 RUN apk update \
@@ -14,4 +14,4 @@ RUN cmake .
 RUN make
 
 # Command to run the executable
-CMD ["./client"]
+CMD ["./src/client_exec"]

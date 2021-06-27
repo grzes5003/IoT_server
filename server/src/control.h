@@ -5,7 +5,7 @@
 
 typedef struct sensor_t {
     struct sockaddr_in6 _addr;
-    struct request_t _req_arr[10];
+    struct message_t _msg_arr[10];
     struct sensor_t *_next;
 } sensor_t;
 
