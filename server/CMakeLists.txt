@@ -2,7 +2,10 @@ cmake_minimum_required(VERSION 3.18)
 project(server C)
 
 set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread" )
+if (WIN32)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lwsock32 -lws2_32" )
+    # set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread" )
+endif ()
 
 set(
         IOT_INCLUDE_DIRS

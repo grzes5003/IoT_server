@@ -6,7 +6,8 @@
 sensor_t *sens_find(sensor_t *sensor_arr, struct in6_addr *address) {
     sensor_t *iter = sensor_arr;
     while (iter->_next != NULL) {
-        if (IN6_ARE_ADDR_EQUAL(&iter->_addr.sin6_addr, address)) {
+        if (IN6_ARE_ADDR_EQUAL(&iter->_addr.sin6_addr,
+                               address)) {
             // found sensor
             return iter;
         }
@@ -18,7 +19,8 @@ sensor_t *sens_find(sensor_t *sensor_arr, struct in6_addr *address) {
 int sens_add_remote(sensor_t *sensor_arr, sensor_t *sensor) {
     sensor_t *iter = sensor_arr;
     while (iter->_next != NULL) {
-        if (IN6_ARE_ADDR_EQUAL(&iter->_addr.sin6_addr,&sensor->_addr.sin6_addr)) {
+        if (IN6_ARE_ADDR_EQUAL(&iter->_addr.sin6_addr,
+                               &sensor->_addr.sin6_addr)) {
             // already in array
             return 1;
         }
@@ -35,7 +37,8 @@ int sens_remove_remote(sensor_t *sensor_arr, sensor_t *sensor) {
     sensor_t *prv  = sensor_arr;
 
     while (iter->_next != NULL) {
-        if (IN6_ARE_ADDR_EQUAL(&iter->_addr.sin6_addr,&sensor->_addr.sin6_addr)) {
+        if (IN6_ARE_ADDR_EQUAL(&iter->_addr.sin6_addr,
+                               &sensor->_addr.sin6_addr)) {
             // found element to remove
             prv->_next = iter->_next;
             free(iter);
@@ -44,6 +47,6 @@ int sens_remove_remote(sensor_t *sensor_arr, sensor_t *sensor) {
         prv = iter;
         iter = iter->_next;
     }
-    // element not found
+    /* element not found */
     return -1;
 }

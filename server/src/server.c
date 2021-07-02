@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <pthread.h>
 #include <string.h>
 #include <errno.h>
+#if _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#else
 #include <arpa/inet.h>
+#endif
 #include "server.h"
 #include "log.h"
 
@@ -17,7 +21,7 @@ int setup_server(int port) {
     check((sockfd = socket(AF_INET6, SOCK_DGRAM, 0)), "socket error");
     log_info("created socket");
 
-    bzero(&servaddr, sizeof(servaddr));
+    memset(&servaddr,0 , sizeof(servaddr));
     servaddr.sin6_family = AF_INET6;
     servaddr.sin6_addr = in6addr_any;
     servaddr.sin6_port = htons(port);
@@ -45,7 +49,7 @@ int accept_new_conn(int sockfd) {
 int handle_connection(int connfd, sensor_t *sensor_arr) {
     int n;
     struct sockaddr_in6 cliaddr;
-    bzero(&cliaddr, sizeof (struct sockaddr_in6));
+    memset(&cliaddr,0 , sizeof (struct sockaddr_in6));
     socklen_t srcaddrlen = sizeof cliaddr;
     char *rcvbuff = malloc(RCV_BUFFSIZE);
     time_t ticks;
@@ -71,11 +75,11 @@ int handle_connection(int connfd, sensor_t *sensor_arr) {
     log_info("Message: TYPE %i, PAYLOAD %s", recv_msg->msg_type, recv_msg->payload);
 
     sensor_t *sensor;
-    if ((sensor = sens_find(sensor_arr, &cliaddr.sin6_addr)) == NULL) {
-        // add sensor to list
-        sensor_t _sensor = {cliaddr, {}, NULL};
-        sens_add_remote(sensor_arr, &_sensor);
-    }
+//    if ((sensor = sens_find(sensor_arr, &cliaddr.sin6_addr)) == NULL) {
+//        // add sensor to list
+//        sensor_t _sensor = {cliaddr, {}, NULL};
+//        sens_add_remote(sensor_arr, &_sensor);
+//    }
 
     message_t resp_msg;
     if (recv_msg->msg_type == MSG_HELLO) {
@@ -88,6 +92,6 @@ int handle_connection(int connfd, sensor_t *sensor_arr) {
     return 0;
 }
 
-int sig_pipe() {
+int sig_pipe(void) {
     return 0;
 }
