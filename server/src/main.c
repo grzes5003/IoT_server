@@ -1,13 +1,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-#include <unistd.h>
+// #include <unistd.h>
 #include <stdlib.h>
+#if _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#else
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
+#endif
 #include "server.h"
-#include "tpool.h"
 #include "log.h"
 
 #define SERV_PORT 5000
@@ -19,6 +23,9 @@ int main() {
     int servfd = setup_server(SERV_PORT);
 
     sensor_arr = (sensor_t*) malloc(sizeof (sensor_t));
+    if (0 == sensor_arr) {
+        return -1;
+    }
     sensor_arr->_addr.sin6_family = AF_INET6;
     sensor_arr->_addr.sin6_addr = in6addr_any;
     sensor_arr->_addr.sin6_port = htons(5500);

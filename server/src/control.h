@@ -1,6 +1,11 @@
 #ifndef SERVER_CONTROL_H
 #define SERVER_CONTROL_H
+#if _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#else
 #include <netinet/in.h>
+#endif
 #include "common.h"
 
 typedef struct sensor_t {
