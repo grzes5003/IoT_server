@@ -3,7 +3,7 @@ project(server C)
 
 set(CMAKE_C_STANDARD 11)
 if (WIN32)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lwsock32 -lws2_32" )
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lws2_32 -lwsock32" )
     # set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread" )
 endif ()
 

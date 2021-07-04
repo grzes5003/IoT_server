@@ -5,6 +5,8 @@
 #if _WIN32
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#pragma comment(lib, "Ws2_32.lib")
+#pragma comment(lib, "wsock32.lib")
 #else
 #include <arpa/inet.h>
 #endif
@@ -12,29 +14,45 @@
 #include "log.h"
 
 
-int setup_server(int port) {
-    int sockfd;
-
+int __cdecl setup_server(int port) {
+    struct sockaddr_in hints;
+    memset(&hints, 0, sizeof(hints));
 #if _IPV6
     struct sockaddr_in6 servaddr;
+    hints.sin_family = AF_INET6;
 
-    check((sockfd = socket(AF_INET6, SOCK_DGRAM, 0)), "socket error");
-    log_info("created socket");
-
-    memset(&servaddr,0 , sizeof(servaddr));
+    memset(&servaddr,0, sizeof(servaddr));
     servaddr.sin6_family = AF_INET6;
     servaddr.sin6_addr = in6addr_any;
     servaddr.sin6_port = htons(port);
 #else
     struct sockaddr_in servaddr;
+    hints.sin_family = AF_INET;
 
-    check((sockfd = socket(AF_INET, SOCK_DGRAM, 0)), "socket error");
-    log_info("created socket");
-
-    bzero(&servaddr, sizeof(servaddr));
+    memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = INADDR_ANY;
     servaddr.sin_port = htons(port);
+#endif
+
+#if _WIN32
+    SOCKET sockfd = INVALID_SOCKET;
+    WSADATA wsaData;
+
+    check(WSAStartup(MAKEWORD(2,2), &wsaData),
+          "WSAStartup failed with error");
+
+    if(INVALID_SOCKET == (sockfd = socket(hints.sin_family, SOCK_DGRAM, 0))) {
+        log_error("socket failed with error: %ld", WSAGetLastError());
+        WSACleanup();
+        exit(EXIT_FAILURE);
+    }
+    log_info("created socket");
+#else
+    int sockfd;
+
+    check((sockfd = socket(hints.sin_family, SOCK_DGRAM, 0)), "socket error");
+    log_info("created socket");
 #endif
     check(bind(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr)), "bind error");
     log_info("bound socket");
@@ -42,11 +60,11 @@ int setup_server(int port) {
     return sockfd;
 }
 
-int accept_new_conn(int sockfd) {
+int __cdecl accept_new_conn(int sockfd) {
     return 0;
 }
 
-int handle_connection(int connfd, sensor_t *sensor_arr) {
+int __cdecl handle_connection(int connfd, sensor_t *sensor_arr) {
     int n;
     struct sockaddr_in6 cliaddr;
     memset(&cliaddr,0 , sizeof (struct sockaddr_in6));
@@ -75,11 +93,11 @@ int handle_connection(int connfd, sensor_t *sensor_arr) {
     log_info("Message: TYPE %i, PAYLOAD %s", recv_msg->msg_type, recv_msg->payload);
 
     sensor_t *sensor;
-//    if ((sensor = sens_find(sensor_arr, &cliaddr.sin6_addr)) == NULL) {
-//        // add sensor to list
-//        sensor_t _sensor = {cliaddr, {}, NULL};
-//        sens_add_remote(sensor_arr, &_sensor);
-//    }
+    if (NULL == (sensor = sens_find(sensor_arr, &cliaddr.sin6_addr))) {
+        /* add sensor to list */
+        sensor_t _sensor = {cliaddr, {}, NULL};
+        sens_add_remote(sensor_arr, &_sensor);
+    }
 
     message_t resp_msg;
     if (recv_msg->msg_type == MSG_HELLO) {
@@ -89,9 +107,5 @@ int handle_connection(int connfd, sensor_t *sensor_arr) {
               "sendto error");
     }
 
-    return 0;
-}
-
-int sig_pipe(void) {
     return 0;
 }

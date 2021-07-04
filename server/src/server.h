@@ -14,22 +14,20 @@
  * @param port bound to socket
  * @return
  */
-int setup_server(int port);
+int __cdecl setup_server(int port);
 /**
  * Accepts new connection and returns
  * new connected socket
  * @param sockfd socket descriptor
  * @return new connected socket
  */
-int accept_new_conn(int sockfd);
+int __cdecl accept_new_conn(int sockfd);
 /**
  * Handles connection
  * @param connfd socket descriptor
  * @param sensor_arr linked list of sensors
  * @return status
  */
-int handle_connection(int connfd, sensor_t *sensor_arr);
-
-int sig_pipe();
+int __cdecl handle_connection(int connfd, sensor_t *sensor_arr);
 
 #endif //SERVER_SERVER_H

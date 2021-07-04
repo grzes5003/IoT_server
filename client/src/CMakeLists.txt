@@ -1,3 +1,10 @@
 add_library(client common.c common.h client.c client.h sensor.c sensor.h log.h log.c)
 add_executable(client_exec main.c)
+if(WIN32)
+    target_link_libraries(client wsock32 ws2_32)
+    target_link_libraries(client_exec wsock32 ws2_32)
+endif()
 target_link_libraries(client_exec client)
+
+get_target_property(OUT client_exec LINK_LIBRARIES)
+message(STATUS ${OUT})
