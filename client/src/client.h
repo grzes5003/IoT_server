@@ -1,7 +1,15 @@
 #ifndef CLIENT_CLIENT_H
 #define CLIENT_CLIENT_H
 
+#if _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#pragma comment(lib, "Ws2_32.lib")
+#pragma comment(lib, "wsock32.lib")
+#else
 #include <netinet/in.h>
+#include <arpa/inet.h>
+#endif
 #include <stdbool.h>
 #include "common.h"
 

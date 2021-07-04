@@ -1,3 +1,10 @@
 add_library(server server.h server.c control.c control.h common.c common.h log.c log.h)
 add_executable(server_exec main.c)
+if(WIN32)
+    target_link_libraries(server wsock32 ws2_32)
+    target_link_libraries(server_exec wsock32 ws2_32)
+endif()
 target_link_libraries(server_exec server)
+
+get_target_property(OUT server_exec LINK_LIBRARIES)
+message(STATUS ${OUT})

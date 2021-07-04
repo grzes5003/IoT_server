@@ -6,6 +6,8 @@
 #if _WIN32
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#pragma comment(lib, "Ws2_32.lib")
+#pragma comment(lib, "wsock32.lib")
 #else
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -14,7 +16,7 @@
 #include "server.h"
 #include "log.h"
 
-#define SERV_PORT 5000
+#define SERV_PORT 50500
 #define RCV_BUFFSIZE  10000
 
 int main() {
