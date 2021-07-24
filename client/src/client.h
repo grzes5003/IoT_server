@@ -18,7 +18,7 @@
 #define LISTEN_TIMEOUT 5
 #define RCV_BUFFSIZE  10000
 #define _TIMEOUT_SOCK
-#define _IPV6 0
+#define _IPV6 1
 
 /**
  * Setup server, set servaddr
