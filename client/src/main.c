@@ -16,9 +16,9 @@
 
 #define PORT 50500
 #if _WIN32
-#define SRV_ADDR "192.168.0.164"
+//#define SRV_ADDR "192.168.0.164"
 //#define SRV_ADDR "127.0.0.0"
-//#define SRV_ADDR "fe80::b5ab:3267:5bb7:359"
+#define SRV_ADDR "fe80::b5ab:3267:5bb7:359"
 #else
 // #define SRV_ADDR "fc00:1:1::ae"
 #define SRV_ADDR "192.168.56.33"
